@@ -1,8 +1,12 @@
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput, Platform } from 'react-native'
+import SegmentedControlTab from 'react-native-segmented-control-tab'
 
 export default function OrderConfirmation({ route, navigation }) {
+  const [tips, setTips] = useState('')
+  const [tipsOptionIndex, setTipsOptionIndex] = useState(0)
+
   const item = route.params.item
 
   const Row = ({ label, value }) => (
@@ -20,13 +24,44 @@ export default function OrderConfirmation({ route, navigation }) {
     date: '2020-08-10'
   }
 
+  useEffect(() => {
+    switch(tipsOptionIndex) {
+      case 0:
+        setTips('$10')
+        break
+      case 1:
+        setTips('$15')
+        break
+      case 2:
+        setTips('$20')
+        break
+      default:
+        setTips('')
+    }
+  }, [tipsOptionIndex])
+
   return (
     <View style={styles.container}>
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, alignItems: 'center'}}>
         <Text style={styles.name}>{item.name}</Text>
         <Row label='order id:' value='ABC-991' />
         <Row label='price:' value='$150' />
         <Row label='tax(13%):' value='$15' />
+        <TextInput
+          style={styles.input}
+          placeholder='Tips'
+          onChangeText={text => setTips(text)}
+          value={tips}
+        />
+        <SegmentedControlTab
+          values={['10%', '15%', '20%', 'Other']}
+          selectedIndex={tipsOptionIndex}
+          onTabPress={setTipsOptionIndex}
+          activeTabStyle={{backgroundColor: '#e91e63'}}
+          tabStyle={{borderColor: '#000', marginTop: 5, marginBottom: 5, width: '100%'}}
+          tabTextStyle={{color: '#000'}}
+
+        />
         <Row label='total:' value='$165' />
       </View>
       <TouchableOpacity style={styles.button} onPress={() => navigation.push('OrderSummary', { order: order })}>
@@ -46,19 +81,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: '100%',
-    borderWidth: 0.2
+    height: '100%'
+  },
+  input: {
+    height: 40,
+    width: Platform.OS === 'ios' ? 335 : 350,
+    marginTop: 5,
+    marginBottom: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderColor: 'gray',
+    borderWidth: 1,
+    textAlign: 'right'
   },
   row: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: 10,
-    paddingBottom: 10,
-    borderWidth: 1
+    paddingBottom: 10
   },
   labelLeft: {
-    borderWidth: 1,
     width: '50%',
     textAlign: 'left',
     fontSize: 20,
@@ -66,7 +109,6 @@ const styles = StyleSheet.create({
     color: '#333333'
   },
   valueRight: {
-    borderWidth: 1,
     width: '50%',
     textAlign: 'right',
     fontSize: 18,
@@ -90,11 +132,10 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   button: {
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
     width: '100%',
     alignItems: 'center',
     backgroundColor: '#e91e63',
-    borderWidth: 2
   }
 });

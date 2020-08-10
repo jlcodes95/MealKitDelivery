@@ -5,7 +5,6 @@ import { StyleSheet, View, Text, TouchableOpacity, Image, Platform } from 'react
 import { ImageEntry } from './ImageEntry'
 
 export default function BrowseItem({ name, desc, price, clickHandler }) {
-  console.log(ImageEntry)
   return (
     <TouchableOpacity style={styles.container} onPress={clickHandler}>
       <Image style={styles.image} source={ImageEntry[name]} />

@@ -53,8 +53,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: '100%',
-    borderWidth: 0.2
+    height: '100%'
   },
   row: {
     width: '100%',
@@ -62,10 +61,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingTop: 10,
     paddingBottom: 10,
-    borderWidth: 1
   },
   labelLeft: {
-    borderWidth: 1,
     width: '50%',
     textAlign: 'left',
     fontSize: 20,
@@ -73,7 +70,6 @@ const styles = StyleSheet.create({
     color: '#333333'
   },
   valueRight: {
-    borderWidth: 1,
     width: '50%',
     textAlign: 'right',
     fontSize: 18,
@@ -97,11 +93,10 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   button: {
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
     width: '100%',
     alignItems: 'center',
     backgroundColor: '#e91e63',
-    borderWidth: 2
   }
 });

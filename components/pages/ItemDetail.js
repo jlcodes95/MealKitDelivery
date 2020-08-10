@@ -33,8 +33,7 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 0.2
+    justifyContent: 'center'
   },
   image: {
     resizeMode: 'contain',
@@ -58,11 +57,10 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   button: {
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
     width: '100%',
     alignItems: 'center',
-    backgroundColor: '#e91e63',
-    borderWidth: 2
+    backgroundColor: '#e91e63'
   }
 });
