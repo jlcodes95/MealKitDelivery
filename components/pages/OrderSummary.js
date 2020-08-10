@@ -30,7 +30,8 @@ export default function OrderSummary({ route, navigation }) {
         <Row label='order id:' value='ABC-991' />
         <Row label='price:' value='$150' />
         <Row label='tax(13%):' value='$15' />
-        <Row label='total:' value='$165' />
+        <Row label='tips:' value='$15' />
+        <Row label='total:' value='$180' />
         <Row label='date:' value='2020-08-10' />
       </View>
       <TouchableOpacity style={styles.button} onPress={() => {

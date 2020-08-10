@@ -47,12 +47,15 @@ export default function OrderConfirmation({ route, navigation }) {
         <Row label='order id:' value='ABC-991' />
         <Row label='price:' value='$150' />
         <Row label='tax(13%):' value='$15' />
+        <View style={{flexDirection: 'row', justifyContent: 'space-around',}}>
+        <Text style={[styles.labelLeft, {paddingTop: 10}]}>Tips:</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.valueRight, styles.input]}
           placeholder='Tips'
           onChangeText={text => setTips(text)}
           value={tips}
         />
+        </View>
         <SegmentedControlTab
           values={['10%', '15%', '20%', 'Other']}
           selectedIndex={tipsOptionIndex}
@@ -85,7 +88,6 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: Platform.OS === 'ios' ? 335 : 350,
     marginTop: 5,
     marginBottom: 5,
     paddingLeft: 5,
