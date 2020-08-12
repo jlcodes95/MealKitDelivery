@@ -9,40 +9,27 @@ import { createStackNavigator } from '@react-navigation/stack'
 import BrowseItem from '../subcomponents/BrowseItem'
 import ItemDetail from './ItemDetail'
 
+import firebase from '../../Firebase'
+
 const OrderStack = createStackNavigator()
+const db = firebase.firestore()
 
 export default function Order({ navigation }) {
 
   const [list, setList] = useState([])
 
+  const fetchMealKits = async () => {
+    db.collection('mealkits').get().then(snapshot => {
+      let mealkits = []
+      snapshot.forEach((doc) => {
+        mealkits.push(doc.data())
+      })
+      setList(mealkits)
+    }).catch(err => console.log(err))
+  }
+
   useEffect(() => {
-    setList([
-      {
-        id: 'ABC123',
-        name: 'Value Meal Kit',
-        desc: 'All of our bestselling value meals in one package for even less',
-        calorie: 500,
-        price: '$100',
-      },{
-        id: 'DEF456',
-        name: 'Keto Meal Kit',
-        desc: 'High fat, low carb meals with moderate protein to achieve and sustain ketosis',
-        calorie: 700,
-        price: '$200',
-      },{
-        id: 'GHI789',
-        name: 'Vegan Meal Kit',
-        desc: 'A fully plant-based package featuring vegan meat and no animal products',
-        calorie: 300,
-        price: '$10',
-      },{
-        id: 'XYZ000',
-        name: 'Weight Loss Meal Kit',
-        desc: 'High Protein, low-calorie meals with a nutrient profile tuned for weight loss',
-        calorie: 400,
-        price: '$120',
-      }
-    ])
+    fetchMealKits()
   }, [])
 
   const redirectDetail = (item) => {
@@ -57,12 +44,13 @@ export default function Order({ navigation }) {
       renderItem={({ item }) => (
         <BrowseItem
           name={item.name}
-          desc={item.desc}
+          desc={item.description}
           price={item.price}
+          photo={item.photo}
           clickHandler={() => redirectDetail(item)}
         />
       )}
-      keyExtractor={item => item.id}
+      keyExtractor={item => item.sku}
     />
   )
 

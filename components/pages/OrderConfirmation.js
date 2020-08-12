@@ -2,10 +2,13 @@ import { StatusBar } from 'expo-status-bar'
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput, Platform } from 'react-native'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
+import firebase from '../../Firebase'
 
 export default function OrderConfirmation({ route, navigation }) {
-  const [tips, setTips] = useState('')
+  const [tips, setTips] = useState('0')
   const [tipsOptionIndex, setTipsOptionIndex] = useState(0)
+  const [tax, setTax] = useState(0)
+  const [total, setTotal] = useState(0)
 
   const item = route.params.item
 
@@ -17,36 +20,69 @@ export default function OrderConfirmation({ route, navigation }) {
   )
 
   const order = {
-    id: 'ABC-991',
+    sku: 'ABC-991',
     price: '$150',
     tax: '$15',
     total: '$165',
     date: '2020-08-10'
   }
 
+  const calculateTips = (percent) => {
+    return `$${percent * item.price}`
+  }
+
   useEffect(() => {
     switch(tipsOptionIndex) {
       case 0:
-        setTips('$10')
+        setTips(calculateTips(0.1))
         break
       case 1:
-        setTips('$15')
+        setTips(calculateTips(0.15))
         break
       case 2:
-        setTips('$20')
+        setTips(calculateTips(0.2))
         break
       default:
-        setTips('')
+        setTips(calculateTips(0))
     }
-  }, [tipsOptionIndex])
+  }, [tipsOptionIndex, item])
+
+  useEffect(() => {
+    setTax(item.price * 0.13)
+  }, [item])
+
+  useEffect(() => {
+    setTotal(item.price + tax + parseInt(tips.replace('$', '')))
+  }, [item, tips, tax])
+
+  const submitOrder = () => {
+    // () => navigation.push('OrderSummary', { order: getOrder() })
+    const date = new Date()
+    const order = {
+      uid: firebase.auth().currentUser.uid,
+      oid: `MKD${date.valueOf()}`,
+      date: date.toLocaleString(),
+      sku: item.sku,
+      name: item.name,
+      price: item.price,
+      tax: tax,
+      tips: tips,
+      total: total
+    }
+
+    firebase.firestore().collection('orders').add(order).then(doc => {
+      console.log(doc.id)
+      navigation.push('OrderSummary', { order: order })
+    }).catch(err => console.log(err))
+  }
 
   return (
     <View style={styles.container}>
       <View style={{flex: 1, alignItems: 'center'}}>
         <Text style={styles.name}>{item.name}</Text>
-        <Row label='order id:' value='ABC-991' />
-        <Row label='price:' value='$150' />
-        <Row label='tax(13%):' value='$15' />
+        <Row label='sku:' value={item.sku} />
+        <Row label='price:' value={`$${item.price}`} />
+        <Row label='tax(13%):' value={`$${tax}`} />
         <View style={{flexDirection: 'row', justifyContent: 'space-around',}}>
         <Text style={[styles.labelLeft, {paddingTop: 10}]}>Tips:</Text>
         <TextInput
@@ -65,9 +101,9 @@ export default function OrderConfirmation({ route, navigation }) {
           tabTextStyle={{color: '#000'}}
 
         />
-        <Row label='total:' value='$165' />
+        <Row label='total:' value={`$${total}`} />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.push('OrderSummary', { order: order })}>
+      <TouchableOpacity style={styles.button} onPress={submitOrder}>
         <Text>Confirm Purchase</Text>
       </TouchableOpacity>
     </View>

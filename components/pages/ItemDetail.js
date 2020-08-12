@@ -1,20 +1,30 @@
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 
-import { ImageEntry } from '../subcomponents/ImageEntry'
+import { LoadImage } from '../subcomponents/LoadImage'
 
 export default function ItemDetail({ route, navigation}) {
   const item = route.params.item
+  const [url, setUrl] = useState('')
+
+  const getImage = async () => {
+    let image = await LoadImage(item.photo)
+    setUrl(image)
+  }
+
+  useEffect(() => {
+    getImage()
+  }, [])
 
   return (
     <View style={styles.container}>
       <View style={{flex: 1, alignItems: 'center'}}>
-        <Image style={styles.image} source={ImageEntry[item.name]} />
+        <Image style={styles.image} source={{uri: url}} />
         <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.desc}>{item.desc}</Text>
+        <Text style={styles.desc}>{item.description}</Text>
         <Text style={[styles.desc, {fontStyle: 'italic'}]}>Each meal has an average calorie count of {item.calorie}</Text>
-        <Text style={styles.price}>{item.price}</Text>
+        <Text style={styles.price}>{`$${item.price}`}</Text>
       </View>
       <TouchableOpacity style={styles.button} onPress={() => navigation.push('OrderConfirmation', {item: item})}>
         <Text>Purchase</Text>

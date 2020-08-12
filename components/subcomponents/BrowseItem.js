@@ -1,16 +1,28 @@
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity, Image, Platform } from 'react-native'
 
-import { ImageEntry } from './ImageEntry'
+import { LoadImage } from './LoadImage'
 
-export default function BrowseItem({ name, desc, price, clickHandler }) {
+export default function BrowseItem({ name, desc, price, photo, clickHandler }) {
+  const [url, setUrl] = useState('')
+
+  const getImage = async () => {
+    let image = await LoadImage(photo)
+    console.log(image)
+    setUrl(image)
+  }
+
+  useEffect(() => {
+    getImage()
+  }, [])
+
   return (
     <TouchableOpacity style={styles.container} onPress={clickHandler}>
-      <Image style={styles.image} source={ImageEntry[name]} />
+      <Image style={styles.image} source={{uri: url}} />
       <Text style={styles.name}>{name}</Text>
       <Text style={styles.desc}>{desc}</Text>
-      <Text style={styles.price}>{price}</Text>
+      <Text style={styles.price}>{`$${price}`}</Text>
     </TouchableOpacity>
   )
 }

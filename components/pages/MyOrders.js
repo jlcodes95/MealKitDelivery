@@ -4,40 +4,49 @@ import { StyleSheet, Text, View, FlatList } from 'react-native'
 
 import OrderItem from '../subcomponents/OrderItem'
 
+import firebase from '../../Firebase'
+const db = firebase.firestore()
+
 export default function MyOrders({ navigation }) {
 
   const [list, setList] = useState([])
 
+  const fetchMyOrders = async () => {
+    db.collection('orders')
+      .where('uid', '==', firebase.auth().currentUser.uid)
+      .get()
+      .then(snapshot => {
+        let orders = []
+        snapshot.forEach((doc) => {
+          orders.push(doc.data())
+        })
+        console.log(orders)
+        setList(orders)
+      }).catch(err => console.log(err))
+  }
+
   useEffect(() => {
-    setList([
-      {
-        id: 'ABC123',
-        name: 'Value Meal Kit',
-        date: '2020-08-10',
-        total: '$100',
-      },{
-        id: 'DEF456',
-        name: 'Meat Meal Kit',
-        date: '2020-08-10',
-        total: '$200',
-      },{
-        id: 'GHI789',
-        name: 'Trash Veggie Meal Kit',
-        date: '2020-08-10',
-        total: '$10',
-      },{
-        id: 'XYZ000',
-        name: 'Cheese Meal Kit',
-        date: '2020-08-10',
-        total: '$120',
-      }
-    ])
+    fetchMyOrders()
   }, [])
+
+  const onOrderItemPress = (order) => {
+    console.log('falagaga')
+    navigation.navigate('OrderSummary', { order: order })
+  }
 
   return (
     <FlatList
       data={list}
-      renderItem={({ item }) => (<OrderItem name={item.name} date={item.date} total={item.total} clickHandler={() => console.log(`go to details for ${item.id}`)} />)}
+      renderItem={({ item }) => (
+        <OrderItem
+          oid={item.oid}
+          name={item.name}
+          date={item.date}
+          total={item.total}
+          status={item.status}
+          clickHandler={() => onOrderItemPress(item)}
+        />
+      )}
       keyExtractor={item => item.id}
     />
   )

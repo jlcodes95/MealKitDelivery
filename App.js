@@ -11,6 +11,7 @@ import getHeaderTitle from './components/subcomponents/getHeaderTitle'
 import Dashboard from './components/pages/Dashboard'
 import SignIn from './components/pages/SignIn'
 import SignUp from './components/pages/SignUp'
+import PhoneSignIn from './components/pages/PhoneSignIn'
 import ItemDetail from './components/pages/ItemDetail'
 import OrderConfirmation from './components/pages/OrderConfirmation'
 import OrderSummary from './components/pages/OrderSummary'
@@ -18,11 +19,13 @@ import OrderSummary from './components/pages/OrderSummary'
 const Stack = createStackNavigator()
 
 export default function App() {
+  console.disableYellowBox = true
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
+        <Stack.Screen name="PhoneSignIn" component={PhoneSignIn}/>
         <Stack.Screen
           name="Dashboard"
           component={Dashboard}

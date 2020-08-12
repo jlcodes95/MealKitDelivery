@@ -25,14 +25,15 @@ export default function OrderSummary({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, alignItems: 'center'}}>
         <Text style={styles.name}>{order.name}</Text>
-        <Row label='order id:' value='ABC-991' />
-        <Row label='price:' value='$150' />
-        <Row label='tax(13%):' value='$15' />
-        <Row label='tips:' value='$15' />
-        <Row label='total:' value='$180' />
-        <Row label='date:' value='2020-08-10' />
+        <Text style={styles.date}>{order.date}</Text>
+        <Row label='order id:' value={order.oid} />
+        <Row label='sku:' value={order.sku} />
+        <Row label='price:' value={`$${order.price}`} />
+        <Row label='tax(13%):' value={`$${order.tax}`} />
+        <Row label='tips:' value={`$${order.tips}`} />
+        <Row label='total:' value={`$${order.total}`} />
       </View>
       <TouchableOpacity style={styles.button} onPress={() => {
         closeStatus = true
@@ -83,6 +84,13 @@ const styles = StyleSheet.create({
     color: '#e91e63',
     fontWeight: '500',
     fontSize: 25
+  },
+  date: {
+    paddingTop: 5,
+    paddingBottom: 5,
+    color: '#333333',
+    fontWeight: '500',
+    fontSize: 20
   },
   price: {
     fontWeight: 'bold',
