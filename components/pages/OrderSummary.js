@@ -29,6 +29,7 @@ export default function OrderSummary({ route, navigation }) {
         <Text style={styles.name}>{order.name}</Text>
         <Text style={styles.date}>{order.date}</Text>
         <Row label='order id:' value={order.oid} />
+        <Row label='status:' value={order.status} />
         <Row label='sku:' value={order.sku} />
         <Row label='price:' value={`$${order.price}`} />
         <Row label='tax(13%):' value={`$${order.tax}`} />
@@ -107,5 +108,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     backgroundColor: '#e91e63',
+    borderRadius: 5
   }
 });

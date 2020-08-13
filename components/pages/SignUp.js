@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
     width: 250,
     marginTop: 5,
     marginBottom: 5,
+    paddingLeft: 10,
     borderColor: 'gray',
     borderWidth: 1
   },
@@ -149,7 +150,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
+    borderRadius: 5
   },
   error: {
     color: 'red',

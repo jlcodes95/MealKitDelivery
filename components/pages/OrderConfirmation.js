@@ -67,7 +67,8 @@ export default function OrderConfirmation({ route, navigation }) {
       price: item.price,
       tax: tax,
       tips: tips,
-      total: total
+      total: total,
+      status: 'CONFIRMED'
     }
 
     firebase.firestore().collection('orders').add(order).then(doc => {
@@ -175,5 +176,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     backgroundColor: '#e91e63',
+    borderRadius: 5
   }
 });

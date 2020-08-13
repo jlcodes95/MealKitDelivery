@@ -16,9 +16,9 @@ export default function OrderItem({ oid, name, date, total, status, clickHandler
         <Text style={styles.oid}>{status}</Text>
         <TouchableOpacity
           style={[styles.pickup, {
-              backgroundColor: status === 'CONFIRMED' ? '#e91e63' : '#eeeeee'
+              backgroundColor: status === 'READY' ? '#e91e63' : '#eeeeee'
           }]}
-          disabled={status != 'CONFIRMED'}>
+          disabled={status != 'READY'}>
           <Text>PICKUP</Text>
         </TouchableOpacity>
       </View>

@@ -16,7 +16,7 @@ export default function Account({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <AccountItem title='Profile' clickHandler={() => {console.log('Profile')}} />
+      <AccountItem title='Profile' clickHandler={() => navigation.navigate('Profile')} />
       <AccountItem title='Payment Methods' clickHandler={() => {alert('Coming Soon')}} />
       <AccountItem title='Raffle' clickHandler={() => {alert('Coming Soon')}} />
       <AccountItem title='Frequently Asked Questions' clickHandler={() => {console.log('FAQ')}} />

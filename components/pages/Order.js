@@ -30,7 +30,7 @@ export default function Order({ navigation }) {
 
   useEffect(() => {
     fetchMealKits()
-  }, [])
+  }, [navigation])
 
   const redirectDetail = (item) => {
     navigation.navigate('Detail', {

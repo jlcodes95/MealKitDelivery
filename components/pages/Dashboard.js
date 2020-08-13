@@ -11,7 +11,7 @@ import { FontAwesome5 } from '@expo/vector-icons'
 
 //pages
 import Order from './Order'
-import Pickup from './Pickup'
+// import Pickup from './Pickup'
 import MyOrders from './MyOrders'
 import Account from './Account'
 
@@ -51,7 +51,7 @@ export default function Dashboard({ navigation }) {
       }}
     >
       <Tab.Screen name='Order' component={Order} />
-      <Tab.Screen name='Pickup' component={Pickup}/>
+      {/*<Tab.Screen name='Pickup' component={Pickup}/>*/}
       <Tab.Screen name='MyOrders' component={MyOrders} options={{tabBarLabel: 'My Orders'}}/>
       <Tab.Screen name='Account' component={Account}/>
     </Tab.Navigator>

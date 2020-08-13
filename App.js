@@ -15,6 +15,7 @@ import PhoneSignIn from './components/pages/PhoneSignIn'
 import ItemDetail from './components/pages/ItemDetail'
 import OrderConfirmation from './components/pages/OrderConfirmation'
 import OrderSummary from './components/pages/OrderSummary'
+import Profile from './components/pages/Profile'
 
 const Stack = createStackNavigator()
 
@@ -23,37 +24,44 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false}}/>
-        <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
-        <Stack.Screen name="PhoneSignIn" component={PhoneSignIn}/>
+        <Stack.Screen name='SignIn' component={SignIn} options={{headerShown: false}}/>
+        <Stack.Screen name='SignUp' component={SignUp} options={{headerShown: false}}/>
+        <Stack.Screen name='PhoneSignIn' component={PhoneSignIn}/>
         <Stack.Screen
-          name="Dashboard"
+          name='Dashboard'
           component={Dashboard}
           options={({ route }) => ({
             headerTitle: getHeaderTitle(route),
             headerLeft: null
         })}/>
         <Stack.Screen
-          name="Detail"
+          name='Detail'
           component={ItemDetail}
           options={{
             headerTitle: null
           }}
         />
         <Stack.Screen
-          name="OrderConfirmation"
+          name='OrderConfirmation'
           component={OrderConfirmation}
           options={{
             headerTitle: null
           }}
         />
         <Stack.Screen
-          name="OrderSummary"
+          name='OrderSummary'
           component={OrderSummary}
           options={{
             headerTitle: null,
             headerLeft: null,
             gesturesEnabled: false
+          }}
+        />
+        <Stack.Screen
+          name='Profile'
+          component={Profile}
+          options={{
+            headerTitle: null
           }}
         />
       </Stack.Navigator>

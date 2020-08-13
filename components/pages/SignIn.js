@@ -69,13 +69,10 @@ export default function SignIn({ navigation }) {
           <Text style={{textDecorationLine: 'underline', color: '#e91e63'}}>Sign Up</Text>
         </TouchableOpacity>
       </View>
-      <Text>or</Text>
+      <Text style={{paddingTop: 10, paddingBottom: 10, fontSize: 20}}>or</Text>
       <View>
         <TouchableOpacity style={[styles.buttonStretch, {backgroundColor: '#eee'}]} onPress={onSignInPhone}>
-          <Text>Sign in with Google</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.buttonStretch, {backgroundColor: 'purple'}]} onPress={onSignInPhone}>
-          <Text>Sign in with Yahoo</Text>
+          <Text>Phone Sign In / Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -103,6 +100,7 @@ const styles = StyleSheet.create({
     width: 250,
     marginTop: 5,
     marginBottom: 5,
+    paddingLeft: 10,
     borderColor: 'gray',
     borderWidth: 1
   },
@@ -115,7 +113,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
+    borderRadius: 5
   },
   buttonStretch: {
     width: 250,
@@ -125,6 +124,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
+    borderRadius: 5
   }
 })

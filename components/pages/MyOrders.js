@@ -26,8 +26,12 @@ export default function MyOrders({ navigation }) {
   }
 
   useEffect(() => {
-    fetchMyOrders()
-  }, [])
+    navigation.addListener('focus', () => {
+      fetchMyOrders()
+    })
+    // fetchMyOrders()
+  }, [navigation])
+
 
   const onOrderItemPress = (order) => {
     console.log('falagaga')
@@ -47,7 +51,7 @@ export default function MyOrders({ navigation }) {
           clickHandler={() => onOrderItemPress(item)}
         />
       )}
-      keyExtractor={item => item.id}
+      keyExtractor={item => item.oid}
     />
   )
 }

@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     width: '100%',
     alignItems: 'center',
-    backgroundColor: '#e91e63'
+    backgroundColor: '#e91e63',
+    borderRadius: 5
   }
 });

@@ -9,7 +9,6 @@ export default function BrowseItem({ name, desc, price, photo, clickHandler }) {
 
   const getImage = async () => {
     let image = await LoadImage(photo)
-    console.log(image)
     setUrl(image)
   }
 
