@@ -21,6 +21,7 @@ export default function PhoneSignIn({ navigation }) {
       .then((value) => {
         console.log(value)
         setVerificationId(value)
+        setSendCodeDisabled(true)
       }).catch(err => console.log(err))
   }
 

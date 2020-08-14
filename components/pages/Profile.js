@@ -86,6 +86,7 @@ export default function Profile({ navigation }) {
       .doc(firebase.auth().currentUser.uid)
       .set(newProfile)
       .then(() => {
+        navigation.pop()
         console.log('updated')
       }).catch(err => console.log(err))
   }

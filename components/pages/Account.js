@@ -19,7 +19,7 @@ export default function Account({ navigation }) {
       <AccountItem title='Profile' clickHandler={() => navigation.navigate('Profile')} />
       <AccountItem title='Payment Methods' clickHandler={() => {alert('Coming Soon')}} />
       <AccountItem title='Raffle' clickHandler={() => {alert('Coming Soon')}} />
-      <AccountItem title='Frequently Asked Questions' clickHandler={() => {console.log('FAQ')}} />
+      <AccountItem title='Frequently Asked Questions' clickHandler={() => {alert('Coming Soon')}} />
       <AccountItem title='Log Out' clickHandler={onLogOutPressed} />
     </View>
   )
