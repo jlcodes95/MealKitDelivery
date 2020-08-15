@@ -19,7 +19,6 @@ export default function PhoneSignIn({ navigation }) {
     const phoneProvider = new firebase.auth.PhoneAuthProvider()
     phoneProvider.verifyPhoneNumber(`+1${phone.value}`, recaptchaVerifier.current)
       .then((value) => {
-        console.log(value)
         setVerificationId(value)
         setSendCodeDisabled(true)
       }).catch(err => console.log(err))
@@ -28,7 +27,6 @@ export default function PhoneSignIn({ navigation }) {
   const onSignInPress = () => {
     const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, code)
     firebase.auth().signInWithCredential(credential).then((response) => {
-        console.log(response)
         if (response.additionalUserInfo.isNewUser) {
           firebase.firestore().collection('users').doc(`${response.user.uid}`).set({
             phone: phone.value

@@ -3,7 +3,6 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 function getHeaderTitle(route) {
 
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Order'
-  console.log(routeName)
   switch (routeName) {
     case 'Shop':
       return 'Shop'

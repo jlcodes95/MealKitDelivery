@@ -22,7 +22,6 @@ export default function SignIn({ navigation }) {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(response => {
-      console.log(response)
       navigation.replace('Dashboard')
     }).catch(function(error) {
       // Handle Errors here.

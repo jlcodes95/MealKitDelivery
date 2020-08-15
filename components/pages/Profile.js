@@ -50,8 +50,6 @@ export default function Profile({ navigation }) {
           new: true
         })
       }
-
-      console.log(result)
     } catch (E) {
       alert(E)
     }
@@ -78,7 +76,7 @@ export default function Profile({ navigation }) {
     newProfile.phone = phone
     if (image.new) {
       newProfile.image = imageName
-      console.log(await uploadImage(imageName))
+      await uploadImage(imageName)
     }
 
     //save profile
@@ -87,7 +85,6 @@ export default function Profile({ navigation }) {
       .set(newProfile)
       .then(() => {
         navigation.pop()
-        console.log('updated')
       }).catch(err => console.log(err))
   }
 
@@ -96,7 +93,6 @@ export default function Profile({ navigation }) {
       .doc(firebase.auth().currentUser.uid).get()
       .then(doc => {
         if (doc.exists) {
-            console.log("Document data:", doc.data());
             setProfile(doc.data())
         } else {
             // doc.data() will be undefined in this case

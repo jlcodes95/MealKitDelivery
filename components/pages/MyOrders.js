@@ -21,7 +21,6 @@ export default function MyOrders({ navigation }) {
         snapshot.forEach((doc) => {
           orders.push(doc.data())
         })
-        console.log(orders)
         setList(orders)
       }).catch(err => console.log(err))
   }

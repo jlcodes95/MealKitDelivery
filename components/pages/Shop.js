@@ -55,7 +55,6 @@ export default function Shop({ navigation }) {
   const getQtyInCart = (sku) => {
     const index = findItemIndexInCart(sku)
     if (index > -1) {
-      console.log(cart)
       return cart[index].qty
     }
     return -1
@@ -87,14 +86,7 @@ export default function Shop({ navigation }) {
 
   useEffect(() => {
     fetchMealKits()
-    navigation.addListener('focus', () => {
-      console.log(cart.length)
-    })
   }, [navigation])
-
-  // useEffect(() => {
-  //   console.log(cart.length)
-  // }, [])
 
   const ShopScreen = () => (
     <View>

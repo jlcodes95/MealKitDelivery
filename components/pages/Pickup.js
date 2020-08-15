@@ -6,6 +6,8 @@ import * as Location from 'expo-location'
 import * as TaskManager from 'expo-task-manager'
 import firebase from '../../Firebase'
 
+//in work...
+
 TaskManager.defineTask('orderPickupPreparationCheck', ({ data: { eventType, region }, error }) => {
   if (error) {
     // check `error.message` for more details.

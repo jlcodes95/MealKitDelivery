@@ -4,8 +4,6 @@ import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-nativ
 export const Stepper = ({ value, onValueChangeHandler }) => {
   const [disableDecrement, setDisableDecrement] = useState(true)
   const [disableIncrement, setDisableIncrement] = useState(false)
-  console.log(value)
-  console.log(onValueChangeHandler)
 
   const increment = () => {
     let newValue = parseInt(value)
@@ -19,7 +17,6 @@ export const Stepper = ({ value, onValueChangeHandler }) => {
 
   useEffect(() => {
     const currentValue  = parseInt(value)
-    console.log(currentValue)
     if (currentValue === 1) {
       setDisableDecrement(true)
       setDisableIncrement(false)

@@ -9,7 +9,6 @@ export default function Account({ navigation }) {
 
   const onLogOutPressed = () => {
     firebase.auth().signOut().then(response => {
-      console.log('logout successful')
       navigation.replace('SignIn')
     }).catch(err => console.log(err))
   }

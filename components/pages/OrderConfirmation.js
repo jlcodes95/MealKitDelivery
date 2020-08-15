@@ -42,7 +42,6 @@ export default function OrderConfirmation({ route, navigation }) {
   const onDeletePress = (sku) => {
     for(let i = 0; i < cart.length; i++){
       if (cart[i].item.sku === sku) {
-        console.log('deleting...')
         cart.splice(i, 1)
         break
       }
@@ -60,7 +59,6 @@ export default function OrderConfirmation({ route, navigation }) {
           qty: cartItem.qty
         }
       })
-    console.log(result)
     return result
   }
 
@@ -81,7 +79,6 @@ export default function OrderConfirmation({ route, navigation }) {
   }, [tipsOptionIndex, subtotal])
 
   useEffect(() => {
-    console.log('DELETE MUFFUACK')
     setOrderItems(getOrderItems())
   }, [cart])
 
@@ -112,7 +109,6 @@ export default function OrderConfirmation({ route, navigation }) {
     }
 
     firebase.firestore().collection('orders').add(order).then(doc => {
-      console.log(doc.id)
       emptyCart()
       navigation.push('OrderSummary', { order: order })
     }).catch(err => console.log(err))

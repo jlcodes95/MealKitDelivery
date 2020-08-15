@@ -29,7 +29,6 @@ export default function SignUp({ navigation }) {
 
     firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
     .then(response => {
-      console.log(response)
       firebase.firestore().collection('users').doc(`${response.user.uid}`).set({
         email: email.value,
         phone: phone.value
