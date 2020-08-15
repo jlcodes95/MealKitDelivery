@@ -3,18 +3,31 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 
 import { LoadImage } from '../subcomponents/LoadImage'
+import { Stepper } from '../subcomponents/Stepper'
 
-export default function ItemDetail({ route, navigation}) {
+export default function ItemDetail({ route, navigation }) {
   const item = route.params.item
+  const addItemToCart = route.params.addItemToCart
+  const count = route.params.count
   const [url, setUrl] = useState('')
+  const [value, setValue] = useState('1')
 
   const getImage = async () => {
     let image = await LoadImage(item.photo)
     setUrl(image)
   }
 
+  const onAddToCartPressed = () => {
+    addItemToCart(item, parseInt(value))
+    // navigation.push('OrderConfirmation', {item: item})
+    navigation.goBack()
+  }
+
   useEffect(() => {
     getImage()
+    if (count > -1) {
+      setValue(`${count}`)
+    }
   }, [])
 
   return (
@@ -26,8 +39,9 @@ export default function ItemDetail({ route, navigation}) {
         <Text style={[styles.desc, {fontStyle: 'italic'}]}>Each meal has an average calorie count of {item.calorie}</Text>
         <Text style={styles.price}>{`$${item.price}`}</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.push('OrderConfirmation', {item: item})}>
-        <Text>Purchase</Text>
+      <Stepper value={value} onValueChangeHandler={setValue}/>
+      <TouchableOpacity style={styles.button} onPress={onAddToCartPressed}>
+        <Text>{count > -1 ? 'Update Cart' : 'Add To Cart'}</Text>
       </TouchableOpacity>
     </View>
   )

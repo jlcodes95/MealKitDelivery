@@ -2,13 +2,15 @@ import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 
-export default function OrderItem({ oid, name, date, total, status, clickHandler }) {
+export default function OrderItem({ oid, date, total, status, clickHandler, buttonClickHandler }) {
+  const onPickupPress = () => {
+    buttonClickHandler(oid)
+  }
 
   return (
     <TouchableOpacity style={styles.container} onPress={clickHandler}>
       <View style={{flex: 3}}>
         <Text style={styles.oid}>{oid}</Text>
-        <Text style={styles.name}>{name}</Text>
         <Text>{`$${total}`}</Text>
         <Text>{date}</Text>
       </View>
@@ -16,9 +18,11 @@ export default function OrderItem({ oid, name, date, total, status, clickHandler
         <Text style={styles.oid}>{status}</Text>
         <TouchableOpacity
           style={[styles.pickup, {
-              backgroundColor: status === 'READY' ? '#e91e63' : '#eeeeee'
+              backgroundColor: status === 'CONFIRMED' ? '#e91e63' : '#eeeeee'
           }]}
-          disabled={status != 'READY'}>
+          disabled={status != 'CONFIRMED'}
+          onPress={onPickupPress}
+        >
           <Text>PICKUP</Text>
         </TouchableOpacity>
       </View>
@@ -39,14 +43,9 @@ const styles = StyleSheet.create({
     borderWidth: 0.2
   },
   oid: {
-    color: '#333333',
+    color: '#e91e63',
     fontWeight: 'bold',
     fontSize: 20
-  },
-  name: {
-    color: '#e91e63',
-    fontWeight: '500',
-    fontSize: 18
   },
   rightSide: {
     flex: 2,

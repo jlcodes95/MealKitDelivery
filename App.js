@@ -6,6 +6,7 @@ import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import getHeaderTitle from './components/subcomponents/getHeaderTitle'
+import getHeaderRight from './components/subcomponents/getHeaderRight'
 
 //pages
 import Dashboard from './components/pages/Dashboard'
@@ -23,7 +24,12 @@ export default function App() {
   console.disableYellowBox = true
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerTintColor: '#e91e63',
+          titleStyle:'#e91e63'
+        }}
+      >
         <Stack.Screen name='SignIn' component={SignIn} options={{headerShown: false}}/>
         <Stack.Screen name='SignUp' component={SignUp} options={{headerShown: false}}/>
         <Stack.Screen name='PhoneSignIn' component={PhoneSignIn}/>

@@ -10,7 +10,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FontAwesome5 } from '@expo/vector-icons'
 
 //pages
-import Order from './Order'
+import Shop from './Shop'
 // import Pickup from './Pickup'
 import MyOrders from './MyOrders'
 import Account from './Account'
@@ -25,7 +25,7 @@ export default function Dashboard({ navigation }) {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Order') {
+          if (route.name === 'Shop') {
             iconName = 'shopping-cart'
           }else if (route.name === 'Pickup') {
             iconName = 'car'
@@ -47,10 +47,10 @@ export default function Dashboard({ navigation }) {
         },
         style: {
           backgroundColor: 'white',
-        },
+        }
       }}
     >
-      <Tab.Screen name='Order' component={Order} />
+      <Tab.Screen name='Shop' component={Shop} />
       {/*<Tab.Screen name='Pickup' component={Pickup}/>*/}
       <Tab.Screen name='MyOrders' component={MyOrders} options={{tabBarLabel: 'My Orders'}}/>
       <Tab.Screen name='Account' component={Account}/>

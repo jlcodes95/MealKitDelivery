@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, FlatList } from 'react-native'
 
 import OrderItem from '../subcomponents/OrderItem'
+import dollar from '../subcomponents/dollar'
 
 import firebase from '../../Firebase'
 const db = firebase.firestore()
@@ -34,8 +35,26 @@ export default function MyOrders({ navigation }) {
 
 
   const onOrderItemPress = (order) => {
-    console.log('falagaga')
     navigation.navigate('OrderSummary', { order: order })
+  }
+
+  const onPickupPress = (oid) => {
+    db.collection('orders')
+      .where('uid', '==', firebase.auth().currentUser.uid)
+      .where('oid', '==', oid)
+      .get()
+      .then(snapshot => {
+        snapshot.forEach((doc, i) => {
+          let order = doc.data()
+          order.status = 'COMPLETE'
+          db.collection('orders').doc(doc.id)
+            .set(order)
+            .then(res => {
+              console.log('success')
+              fetchMyOrders()
+            }).catch(err => console.log(err))
+        })
+      }).catch(err => console.log(err))
   }
 
   return (
@@ -44,11 +63,11 @@ export default function MyOrders({ navigation }) {
       renderItem={({ item }) => (
         <OrderItem
           oid={item.oid}
-          name={item.name}
           date={item.date}
-          total={item.total}
+          total={dollar(item.total)}
           status={item.status}
           clickHandler={() => onOrderItemPress(item)}
+          buttonClickHandler={onPickupPress}
         />
       )}
       keyExtractor={item => item.oid}

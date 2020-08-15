@@ -1,6 +1,9 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity } from 'react-native'
+
+import { ItemView } from '../subcomponents/ItemView'
+import dollar from '../subcomponents/dollar'
 
 export default function OrderSummary({ route, navigation }) {
   let closeStatus = false
@@ -26,15 +29,19 @@ export default function OrderSummary({ route, navigation }) {
   return (
     <View style={styles.container}>
       <View style={{flex: 1, alignItems: 'center'}}>
-        <Text style={styles.name}>{order.name}</Text>
+        <Text style={styles.oid}>{order.oid}</Text>
         <Text style={styles.date}>{order.date}</Text>
-        <Row label='order id:' value={order.oid} />
         <Row label='status:' value={order.status} />
-        <Row label='sku:' value={order.sku} />
-        <Row label='price:' value={`$${order.price}`} />
-        <Row label='tax(13%):' value={`$${order.tax}`} />
-        <Row label='tips:' value={`$${order.tips}`} />
-        <Row label='total:' value={`$${order.total}`} />
+        <FlatList
+          data={order.orderItems}
+          renderItem={({ item }) => (
+            <ItemView item={item} onDelete={null} />
+          )}
+          keyExtractor={item => item.sku}
+        />
+        <Row label='tax(13%):' value={`$${dollar(order.tax)}`} />
+        <Row label='tips:' value={`$${dollar(order.tips)}`} />
+        <Row label='total:' value={`$${dollar(order.total)}`} />
       </View>
       <TouchableOpacity style={styles.button} onPress={() => {
         closeStatus = true
@@ -79,7 +86,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: '#e91e63'
   },
-  name: {
+  oid: {
     paddingTop: 5,
     paddingBottom: 5,
     color: '#e91e63',

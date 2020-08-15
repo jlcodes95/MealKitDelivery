@@ -1,16 +1,24 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput, Platform } from 'react-native'
+import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput, FlatList, Platform } from 'react-native'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import firebase from '../../Firebase'
 
+import { ItemView } from '../subcomponents/ItemView'
+import dollar from '../subcomponents/dollar'
+
 export default function OrderConfirmation({ route, navigation }) {
+  const emptyCart = route.params.emptyCart
+  const modifyCart = route.params.modifyCart
+
   const [tips, setTips] = useState('0')
   const [tipsOptionIndex, setTipsOptionIndex] = useState(0)
+  const [orderItems, setOrderItems] = useState([])
+  const [subtotal, setSubtotal] = useState(0)
   const [tax, setTax] = useState(0)
   const [total, setTotal] = useState(0)
 
-  const item = route.params.item
+  let cart = route.params.cart
 
   const Row = ({ label, value }) => (
     <View style={styles.row}>
@@ -19,16 +27,41 @@ export default function OrderConfirmation({ route, navigation }) {
     </View>
   )
 
-  const order = {
-    sku: 'ABC-991',
-    price: '$150',
-    tax: '$15',
-    total: '$165',
-    date: '2020-08-10'
+  const calculateSubtotal = () => {
+    let currentSubtotal = 0
+    orderItems.forEach((item, i) => {
+      currentSubtotal += item.qty * item.price
+    })
+    setSubtotal(currentSubtotal)
   }
 
   const calculateTips = (percent) => {
-    return `$${percent * item.price}`
+    return `$${dollar(percent * subtotal)}`
+  }
+
+  const onDeletePress = (sku) => {
+    for(let i = 0; i < cart.length; i++){
+      if (cart[i].item.sku === sku) {
+        console.log('deleting...')
+        cart.splice(i, 1)
+        break
+      }
+    }
+    modifyCart(cart)
+    setOrderItems(getOrderItems())
+  }
+
+  const getOrderItems = () => {
+    const result = cart.map(cartItem => {
+        return {
+          name: cartItem.item.name,
+          sku: cartItem.item.sku,
+          price: dollar(cartItem.item.price),
+          qty: cartItem.qty
+        }
+      })
+    console.log(result)
+    return result
   }
 
   useEffect(() => {
@@ -45,15 +78,24 @@ export default function OrderConfirmation({ route, navigation }) {
       default:
         setTips(calculateTips(0))
     }
-  }, [tipsOptionIndex, item])
+  }, [tipsOptionIndex, subtotal])
 
   useEffect(() => {
-    setTax(item.price * 0.13)
-  }, [item])
+    console.log('DELETE MUFFUACK')
+    setOrderItems(getOrderItems())
+  }, [cart])
 
   useEffect(() => {
-    setTotal(item.price + tax + parseInt(tips.replace('$', '')))
-  }, [item, tips, tax])
+    calculateSubtotal()
+  }, [orderItems])
+
+  useEffect(() => {
+    setTax(subtotal * 0.13)
+  }, [subtotal])
+
+  useEffect(() => {
+    setTotal(subtotal + parseInt(tips.replace('$', '')) + tax)
+  }, [subtotal, tax, tips])
 
   const submitOrder = () => {
     // () => navigation.push('OrderSummary', { order: getOrder() })
@@ -62,28 +104,36 @@ export default function OrderConfirmation({ route, navigation }) {
       uid: firebase.auth().currentUser.uid,
       oid: `MKD${date.valueOf()}`,
       date: date.toLocaleString(),
-      sku: item.sku,
-      name: item.name,
-      price: item.price,
+      orderItems: orderItems,
       tax: tax,
-      tips: tips,
+      tips: parseInt(tips.replace('$', '')),
       total: total,
       status: 'CONFIRMED'
     }
 
     firebase.firestore().collection('orders').add(order).then(doc => {
       console.log(doc.id)
+      emptyCart()
       navigation.push('OrderSummary', { order: order })
     }).catch(err => console.log(err))
   }
 
-  return (
+  return cart.length === 0 ? (
+    <View style={[styles.container, {justifyContent: 'center'}]}>
+      <Text style={{fontSize: 20}}>Your cart is empty!</Text>
+    </View>
+  ) : (
     <View style={styles.container}>
       <View style={{flex: 1, alignItems: 'center'}}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Row label='sku:' value={item.sku} />
-        <Row label='price:' value={`$${item.price}`} />
-        <Row label='tax(13%):' value={`$${tax}`} />
+        <FlatList
+          data={orderItems}
+          renderItem={({ item }) => (
+            <ItemView item={item} onDelete={onDeletePress} />
+          )}
+          keyExtractor={item => item.sku}
+        />
+        <Row label='subtotal:' value={`$${dollar(subtotal)}`} />
+        <Row label='tax(13%):' value={`$${dollar(tax)}`} />
         <View style={{flexDirection: 'row', justifyContent: 'space-around',}}>
         <Text style={[styles.labelLeft, {paddingTop: 10}]}>Tips:</Text>
         <TextInput
@@ -102,9 +152,9 @@ export default function OrderConfirmation({ route, navigation }) {
           tabTextStyle={{color: '#000'}}
 
         />
-        <Row label='total:' value={`$${total}`} />
+        <Row label='total:' value={`$${dollar(total)}`} />
       </View>
-      <TouchableOpacity style={styles.button} onPress={submitOrder}>
+      <TouchableOpacity style={[styles.button, {backgroundColor: orderItems.length === 0 ? '#d2698d' : '#e91e63'}]} onPress={submitOrder} disabled={orderItems.length === 0}>
         <Text>Confirm Purchase</Text>
       </TouchableOpacity>
     </View>
@@ -175,7 +225,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     width: '100%',
     alignItems: 'center',
-    backgroundColor: '#e91e63',
     borderRadius: 5
   }
 });
