@@ -39,6 +39,7 @@ export default function OrderSummary({ route, navigation }) {
           )}
           keyExtractor={item => item.sku}
         />
+        <Row label='subtotal:' value={`$${dollar(order.subtotal)}`} />
         <Row label='tax(13%):' value={`$${dollar(order.tax)}`} />
         <Row label='tips:' value={`$${dollar(order.tips)}`} />
         <Row label='total:' value={`$${dollar(order.total)}`} />

@@ -6,7 +6,6 @@ import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import getHeaderTitle from './components/subcomponents/getHeaderTitle'
-import getHeaderRight from './components/subcomponents/getHeaderRight'
 
 //pages
 import Dashboard from './components/pages/Dashboard'
